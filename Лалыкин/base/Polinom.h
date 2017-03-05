@@ -7,59 +7,73 @@
 
 using namespace std;
 
-class Polinom: public List<Monom>//наследуем от класса-список
+class Polinom: public List<Monom>//РЅР°СЃР»РµРґСѓРµРј РѕС‚ РєР»Р°СЃСЃР°-СЃРїРёСЃРѕРє
 {
 public:
-	Polinom();// Конструктор
-	void Create(int coef,int x,int y,int z);//создание монома и запись в полином
-	string ToString();//преобразовать список в строку
-	Polinom& operator*(double num);// перегрузка умножения на константу
-	Polinom& operator+=(Polinom &d);// перегрузка сложения
-	Polinom& operator-=(Polinom &d);// перегрузка вычитания
+	Polinom();// РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ
+	void Create(int coef,int x,int y,int z);//СЃРѕР·РґР°РЅРёРµ РјРѕРЅРѕРјР° Рё Р·Р°РїРёСЃСЊ РІ РїРѕР»РёРЅРѕРј
+	string ToString();//РїСЂРµРѕР±СЂР°Р·РѕРІР°С‚СЊ СЃРїРёСЃРѕРє РІ СЃС‚СЂРѕРєСѓ
+	Polinom& operator*(double num);// РїРµСЂРµРіСЂСѓР·РєР° СѓРјРЅРѕР¶РµРЅРёСЏ РЅР° РєРѕРЅСЃС‚Р°РЅС‚Сѓ
+	Polinom& operator+=(Polinom &d);// РїРµСЂРµРіСЂСѓР·РєР° СЃР»РѕР¶РµРЅРёСЏ
+	Polinom& operator-=(Polinom &d);// РїРµСЂРµРіСЂСѓР·РєР° РІС‹С‡РёС‚Р°РЅРёСЏ
 
 };
 
-Polinom::Polinom()//конструктор
+Polinom::Polinom()//РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ
 {
-	Monom temp(0, -1);//"нулевой" моном
+	Monom temp(0, -1);//"РЅСѓР»РµРІРѕР№" РјРѕРЅРѕРј
 	first = new Link<Monom>;
-	first->SetVal(temp);//установим значение
-	first->SetNext(first);//установим указатель
+	first->SetVal(temp);//СѓСЃС‚Р°РЅРѕРІРёРј Р·РЅР°С‡РµРЅРёРµ
+	first->SetNext(first);//СѓСЃС‚Р°РЅРѕРІРёРј СѓРєР°Р·Р°С‚РµР»СЊ
 }
 
 void Polinom::Create(int coef,int x,int y,int z)
 {
 	if (coef!=0)
 	{
-		Monom temp(coef, 100*x+ 10*y + z);//создаём моном
-		Push(temp);//кладем в полином	
+		Monom temp(coef, 100*x+ 10*y + z);//СЃРѕР·РґР°С‘Рј РјРѕРЅРѕРј
+		Push(temp);//РєР»Р°РґРµРј РІ РїРѕР»РёРЅРѕРј	
 
-		if (current->GetVal().degree == early->GetVal().degree)//сравниваем соседние степени
+		if (current->GetVal().degree == early->GetVal().degree)//СЃСЂР°РІРЅРёРІР°РµРј СЃРѕСЃРµРґРЅРёРµ СЃС‚РµРїРµРЅРё
 		{
-			Monom temp(current->GetVal().coef + early->GetVal().coef, current->GetVal().degree);//если совпадают ,то складываем коэффициенты
-			Push(temp);	//кладем в полином результат
-			DeleteLink(); //удаляем старый-текущий
-			DeleteLink(); //удалить второй-старый,который стал текущим
-		}	
-	}			
+			Monom temp(current->GetVal().coef + early->GetVal().coef, current->GetVal().degree);//РµСЃР»Рё СЃРѕРІРїР°РґР°СЋС‚ ,С‚Рѕ СЃРєР»Р°РґС‹РІР°РµРј РєРѕСЌС„С„РёС†РёРµРЅС‚С‹
+			Push(temp);	//РєР»Р°РґРµРј РІ РїРѕР»РёРЅРѕРј СЂРµР·СѓР»СЊС‚Р°С‚
+			DeleteLink(); //СѓРґР°Р»СЏРµРј СЃС‚Р°СЂС‹Р№-С‚РµРєСѓС‰РёР№
+			DeleteLink(); //СѓРґР°Р»РёС‚СЊ РІС‚РѕСЂРѕР№-СЃС‚Р°СЂС‹Р№,РєРѕС‚РѕСЂС‹Р№ СЃС‚Р°Р» С‚РµРєСѓС‰РёРј
+		}
+
+	}
+	Return();//РІРµСЂРЅСѓС‚СЊ СѓРєР°Р·Р°С‚РµР»Рё РІ СЃС‚Р°СЂС‚РѕРІРѕРµ РїРѕР»РѕР¶РµРЅРёРµ
+	current = first->GetNext();//РІРµСЂРЅРµРј СѓРєР°Р·Р°С‚РµР»Рё РІ РёСЃС…РѕРґРЅСѓСЋ РїРѕР·С†РёСЋ
+
+	while (current != first)//РїРѕРєР° РЅРµ РґРѕР№РґРµРј РґРѕ РєРѕРЅС†Р° С†РёРєР»РёС‡РµСЃРєРѕРіРѕ СЃРїРёСЃРєР°
+	{
+
+		if (current->GetVal().coef==0)//РµСЃР»Рё РµСЃС‚СЊ РЅСѓР»РµРІРѕР№ РєРѕСЌС„С„РёС†РёРµРЅС‚
+		{
+			DeleteLink(); //СѓРґР°Р»СЏРµРј СЃС‚Р°СЂС‹Р№-С‚РµРєСѓС‰РёР№
+		}
+		current = current->GetNext();//РґРІРёРіР°РµРј СѓРєР°Р·Р°С‚РµР»СЊ РЅР° С‚РµРєСѓС‰РёР№
+	}
 }
+
 
 string Polinom:: ToString()
 {
 	string res;
-	long double k,a,b,c;//для использования стандартной функции to_string надо использовать именно такой тип
-	int size=GetLength();//получим текущую длину полинома
+	long double k,a,b,c;//РґР»СЏ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёСЏ СЃС‚Р°РЅРґР°СЂС‚РЅРѕР№ С„СѓРЅРєС†РёРё to_string РЅР°РґРѕ РёСЃРїРѕР»СЊР·РѕРІР°С‚СЊ РёРјРµРЅРЅРѕ С‚Р°РєРѕР№ С‚РёРї
+	int size=GetLength();//РїРѕР»СѓС‡РёРј С‚РµРєСѓС‰СѓСЋ РґР»РёРЅСѓ РїРѕР»РёРЅРѕРјР°
 	for (int i=0; i<size;i++)
 	{
-		if (i!=0 && GetData(i).coef>0)//условие , когда вписать +
+		if (i!=0 && GetData(i).coef>0)//СѓСЃР»РѕРІРёРµ , РєРѕРіРґР° РІРїРёСЃР°С‚СЊ +
 		{
 			res +=" +";
 		}
-		k=GetData(i).coef;//запомнить коэффициент
-		res +=(to_string(k));//добавить коэффициент ко строке
+		k=GetData(i).coef;//Р·Р°РїРѕРјРЅРёС‚СЊ РєРѕСЌС„С„РёС†РёРµРЅС‚
+		res +=(to_string(k));//РґРѕР±Р°РІРёС‚СЊ РєРѕСЌС„С„РёС†РёРµРЅС‚ РєРѕ СЃС‚СЂРѕРєРµ
 		res += " x^";
-		a=GetData(i).degree/100;//запомнить степень
-		res+=(to_string(a));//добавить степень ко строке
+		a=GetData(i).degree/100;//Р·Р°РїРѕРјРЅРёС‚СЊ СЃС‚РµРїРµРЅСЊ
+		res+=(to_string(a));//РґРѕР±Р°РІРёС‚СЊ СЃС‚РµРїРµРЅСЊ РєРѕ СЃС‚СЂРѕРєРµ
 		res += " y^";
 		b=GetData(i).degree/10 % 10;
 		res+=(to_string(b));
@@ -68,49 +82,49 @@ string Polinom:: ToString()
 		res+=(to_string(c));
 		res += " ";
 	}
-	return res;//вернём строку
+	return res;//РІРµСЂРЅС‘Рј СЃС‚СЂРѕРєСѓ
 }
 
-Polinom& Polinom::operator*(double num)//перегрузка умножения на константу
+Polinom& Polinom::operator*(double num)//РїРµСЂРµРіСЂСѓР·РєР° СѓРјРЅРѕР¶РµРЅРёСЏ РЅР° РєРѕРЅСЃС‚Р°РЅС‚Сѓ
 {
-	current = first->GetNext();//вернем указатели в исходную позцию
-	while (current != first)//пока не дойдем до конца циклического списка
+	current = first->GetNext();//РІРµСЂРЅРµРј СѓРєР°Р·Р°С‚РµР»Рё РІ РёСЃС…РѕРґРЅСѓСЋ РїРѕР·С†РёСЋ
+	while (current != first)//РїРѕРєР° РЅРµ РґРѕР№РґРµРј РґРѕ РєРѕРЅС†Р° С†РёРєР»РёС‡РµСЃРєРѕРіРѕ СЃРїРёСЃРєР°
 	{
-		Monom temp(num*current->GetVal().coef, current->GetVal().degree);//умножим коэффициент мономов на входящий
-		current->SetVal(temp);//установим значение монома
-		current = current->GetNext();//следующая итерация
+		Monom temp(num*current->GetVal().coef, current->GetVal().degree);//СѓРјРЅРѕР¶РёРј РєРѕСЌС„С„РёС†РёРµРЅС‚ РјРѕРЅРѕРјРѕРІ РЅР° РІС…РѕРґСЏС‰РёР№
+		current->SetVal(temp);//СѓСЃС‚Р°РЅРѕРІРёРј Р·РЅР°С‡РµРЅРёРµ РјРѕРЅРѕРјР°
+		current = current->GetNext();//СЃР»РµРґСѓСЋС‰Р°СЏ РёС‚РµСЂР°С†РёСЏ
 	};
 	return *this;
 }
 
-Polinom& Polinom::operator+=(Polinom &d)//перегрузка оператора сложения полиномов
+Polinom& Polinom::operator+=(Polinom &d)//РїРµСЂРµРіСЂСѓР·РєР° РѕРїРµСЂР°С‚РѕСЂР° СЃР»РѕР¶РµРЅРёСЏ РїРѕР»РёРЅРѕРјРѕРІ
 {
-	Return();//вернуть указатели в стартовое положение
-	d.Return();//и на прибавляемом
+	Return();//РІРµСЂРЅСѓС‚СЊ СѓРєР°Р·Р°С‚РµР»Рё РІ СЃС‚Р°СЂС‚РѕРІРѕРµ РїРѕР»РѕР¶РµРЅРёРµ
+	d.Return();//Рё РЅР° РїСЂРёР±Р°РІР»СЏРµРјРѕРј
 
-	while (current != first || d.current != d.first)//пока не дойдём до конца циклического списка
+	while (current != first || d.current != d.first)//РїРѕРєР° РЅРµ РґРѕР№РґС‘Рј РґРѕ РєРѕРЅС†Р° С†РёРєР»РёС‡РµСЃРєРѕРіРѕ СЃРїРёСЃРєР°
 	{
-		if (current->GetVal() < d.current->GetVal()) //если нет совпадений по степени 
+		if (current->GetVal() < d.current->GetVal()) //РµСЃР»Рё РЅРµС‚ СЃРѕРІРїР°РґРµРЅРёР№ РїРѕ СЃС‚РµРїРµРЅРё 
 		{
-			Push(d.current->GetVal()); //, то дабвляем моном (по убыванию)         
-			d.Forward();//движемся дальше по прибавляемому
+			Push(d.current->GetVal()); //, С‚Рѕ РґР°Р±РІР»СЏРµРј РјРѕРЅРѕРј (РїРѕ СѓР±С‹РІР°РЅРёСЋ)         
+			d.Forward();//РґРІРёР¶РµРјСЃСЏ РґР°Р»СЊС€Рµ РїРѕ РїСЂРёР±Р°РІР»СЏРµРјРѕРјСѓ
 
 		} 
 		else 
-			if (current->GetVal() == d.current->GetVal())//если степени совпадают 
+			if (current->GetVal() == d.current->GetVal())//РµСЃР»Рё СЃС‚РµРїРµРЅРё СЃРѕРІРїР°РґР°СЋС‚ 
 			{
-				Monom temp(current->GetVal().coef + d.current->GetVal().coef, current->GetVal().degree);//складываем мономы
+				Monom temp(current->GetVal().coef + d.current->GetVal().coef, current->GetVal().degree);//СЃРєР»Р°РґС‹РІР°РµРј РјРѕРЅРѕРјС‹
 
-				current->SetVal(temp);//устанаваливаем значение монома
+				current->SetVal(temp);//СѓСЃС‚Р°РЅР°РІР°Р»РёРІР°РµРј Р·РЅР°С‡РµРЅРёРµ РјРѕРЅРѕРјР°
 
-				if (current->GetVal().coef == 0)//если в результате получился нулевой коэффициент
+				if (current->GetVal().coef == 0)//РµСЃР»Рё РІ СЂРµР·СѓР»СЊС‚Р°С‚Рµ РїРѕР»СѓС‡РёР»СЃСЏ РЅСѓР»РµРІРѕР№ РєРѕСЌС„С„РёС†РёРµРЅС‚
 				{
-					DeleteLink();  //удаляем его
+					DeleteLink();  //СѓРґР°Р»СЏРµРј РµРіРѕ
 					d.Forward();
 				}
 				else
 				{
-					d.Forward();//если всё нормально, то двигаемя дальше
+					d.Forward();//РµСЃР»Рё РІСЃС‘ РЅРѕСЂРјР°Р»СЊРЅРѕ, С‚Рѕ РґРІРёРіР°РµРјСЏ РґР°Р»СЊС€Рµ
 					Forward();
 				};
 			} 
@@ -120,12 +134,12 @@ Polinom& Polinom::operator+=(Polinom &d)//перегрузка оператора сложения полиномо
 			}
 	};
 
-	return *this;//вернём p , где p = p+d 
+	return *this;//РІРµСЂРЅС‘Рј p , РіРґРµ p = p+d 
 }
 
-Polinom& Polinom::operator-=(Polinom &d)//перегрузка вычитания
+Polinom& Polinom::operator-=(Polinom &d)//РїРµСЂРµРіСЂСѓР·РєР° РІС‹С‡РёС‚Р°РЅРёСЏ
 {
-	return (*this) += d*(-1);//тоже самое , только противоположное дейсвтие
+	return (*this) += d*(-1);//С‚РѕР¶Рµ СЃР°РјРѕРµ , С‚РѕР»СЊРєРѕ РїСЂРѕС‚РёРІРѕРїРѕР»РѕР¶РЅРѕРµ РґРµР№СЃРІС‚РёРµ
 }
 
 
