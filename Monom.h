@@ -7,30 +7,30 @@ using namespace std;
 class Monom 
 {
 public:
-	double coef;//коэффициент
-	int degree;//степень
+	double coef;//РєРѕСЌС„С„РёС†РёРµРЅС‚
+	int degree;//СЃС‚РµРїРµРЅСЊ
 
-	Monom(double coef = 0, int degree = -1)//конструктор
+	Monom(double coef = 0, int degree = -1)//РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ
 	{
-		this->coef = coef;//для коэффициента
-		this->degree = degree;//для свернутой степени
+		this->coef = coef;//РґР»СЏ РєРѕСЌС„С„РёС†РёРµРЅС‚Р°
+		this->degree = degree;//РґР»СЏ СЃРІРµСЂРЅСѓС‚РѕР№ СЃС‚РµРїРµРЅРё
 	}
 
-	bool operator<(const Monom &m)//оператор сравнения(меньше)
+	bool operator<(const Monom &m)//РѕРїРµСЂР°С‚РѕСЂ СЃСЂР°РІРЅРµРЅРёСЏ(РјРµРЅСЊС€Рµ)
 	{
 		if (degree < m.degree) return true;		
 		else
 			return false;
 	}
 
-	bool operator>(const Monom &m)//оператор сравнения(больше)
+	bool operator>(const Monom &m)//РѕРїРµСЂР°С‚РѕСЂ СЃСЂР°РІРЅРµРЅРёСЏ(Р±РѕР»СЊС€Рµ)
 	{
 		if (degree > m.degree) return true;		
 		else
 			return false;
 	}	
 
-	bool operator==(const Monom &m)//оператор сравнения(равно)
+	bool operator==(const Monom &m)//РѕРїРµСЂР°С‚РѕСЂ СЃСЂР°РІРЅРµРЅРёСЏ(СЂР°РІРЅРѕ)
 	{
 		if (degree == m.degree) return true;	
 		else
