@@ -109,3 +109,17 @@ TEST(List,operator_DeleteList_can_delete_all_links_of_list)
 	EXPECT_EQ(list.GetLength(),0);
 }
 
+TEST(List,operator_DeleteLink_can_delete_link_of_list)
+{
+	List<int> list;
+	list.Push(44);
+	list.Push(21);
+	list.Push(1);
+	list.Push(0);
+	list.DeleteLink();
+
+	EXPECT_EQ(list.GetLength(),3);
+}
+
+
+
