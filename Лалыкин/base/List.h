@@ -8,28 +8,29 @@ using namespace std;
 
 template <class Type>
 class List//шаблонный класс-список
-{
-	Link<Type>* first;// Указатель на первое звено в списке
-
+{	
 	int length;// Длина списка
-
 	Link<Type>* temp;// Указатель на временное звено
-	Link<Type>* current;// Указатель на текущее звено
-	Link<Type>* early;// Указатель на предыдущее звено относительно текущего
-
 public:
+	Link<Type>* first;// Указатель на первое звено в списке
+	Link<Type>* early;// Указатель на предыдущее звено относительно текущего	
+	Link<Type>* current;// Указатель на текущее звено
 
 	List();// Конструктор
 
 	void Push (Type data);// Добавление звеньев в список по-убыванию (ради строительства полиномов)
-
-	Link<Type>* Search (Type elem);//поиск элемента в списке по значению в звене
 
 	bool IsEmpty();//проверка на пустоту
 
 	int GetLength();//вернуть длину списка
 
 	Type GetData(int pos);//вернуть значение в заданной позиции
+
+	void Forward();// Передвинуть указатели вперед
+
+	void Return();// Вернуть указатели на начало
+
+	void DeleteLink();//удалить текущее звено
 
 	void DeleteList();//удалить список 
 
@@ -74,22 +75,6 @@ void List<Type>::Push (Type data)// Добавление элементов
 }
 
 template <class Type>
-Link<Type>* List<Type>::Search (Type elem)//поиск элемента в списке по значению в звене
-{
-	if (!IsEmpty())//если не пуст
-	{
-		current = first->GetNext(); // указатель на текущее звено станет на первое звено в списке (так как идём от начала)
-		while (current->GetVal() != elem)//пока не встретим искомый элемент
-		{
-			early = current;               //указатель на предыдущий(который стоял на первом) станет на текущий      
-			current = current->GetNext();//передвигаем текущий вперёд 
-		};
-
-		return current;//вернём то на чем остановились
-	};
-}
-
-template <class Type>
 bool List<Type>::IsEmpty()//проверка на пустоту
 {
 	if (length == 0) return true;
@@ -117,6 +102,36 @@ Type List<Type>::GetData(int pos)//вернуть значение в задан
 	return current->GetVal();//вернём то на чем остановились
 }
 
+template <class T>
+void List<T>:: Forward()// Передвинуть указатели вперед
+{
+	early = current;
+	current = current->GetNext();
+};
+
+template <class T>
+void List<T>:: Return()// Вернуть указатели на начало
+{
+	early= first;
+	current = first->GetNext();
+};
+
+
+template <class T>
+void List<T>::DeleteLink ()//удалить текущее звено
+{
+	if (!IsEmpty())
+	{
+		early->SetNext(current->GetNext());
+		delete current;
+
+		current = early->GetNext();
+
+		length--;
+	};
+}
+
+
 template <class Type>
 void List<Type>::DeleteList()//удалить список 
 {
@@ -133,6 +148,4 @@ void List<Type>::DeleteList()//удалить список
 	length = 0;
 }
 #endif
-
-
 
