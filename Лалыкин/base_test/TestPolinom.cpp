@@ -403,11 +403,11 @@ TEST(Polinom, operator_subtraction_can_subtract_two_polinoms_and_delete_zero_mon
 TEST(Polinom,operator_subtraction_can_subtract_two_polinoms_of_string_and_delete_zero_monom)
 {
 	Polinom p;
-	string s="-7x1y2z3-6x3y2z3";
+	string s="-7x1y2z3-x3";
 	p.OfString(s);
 
 	Polinom d;
-	string k="9x3y2z3-7x1y2z3";
+	string k="9x3-7x1y2z3";
 	d.OfString(k);
 	p-=d;
 
@@ -484,8 +484,53 @@ TEST(Polinom,operator_multiplication_multiply_polinom_of_string_and_zero_number)
 TEST(Polinom,operator_Calculate_can_calculate_value_of_polynomial_at_point)
 {
 	Polinom p;
-	string s="-7x1y2z3";
+	string s="-17x1y2z3+4x2";
 	p.OfString(s);
 	
-	EXPECT_EQ(p.Calculate(5,1,2),-280);
+	EXPECT_EQ(p.Calculate(5,1,2),-580);
+}
+
+TEST(Polinom,operator_Calculate_can_calculate_value_of_polynomial_at_point_1)
+{
+	Polinom p;
+	string s="-x1y2";
+	p.OfString(s);
+	
+	EXPECT_EQ(p.Calculate(5,1,2),-5);
+}
+
+TEST(Polinom,operator_Calculate_can_calculate_value_of_polynomial_at_point_2)
+{
+	Polinom p;
+	string s="y2+x2";
+	p.OfString(s);
+	
+	EXPECT_EQ(p.Calculate(5,-1,2),26);
+}
+
+TEST(Polinom,operator_Calculate_can_calculate_value_of_polynomial_at_point_3)
+{
+	Polinom p;
+	string s="y3+x2z1";
+	p.OfString(s);
+	
+	EXPECT_EQ(p.Calculate(5,-1,2),49);
+}
+
+TEST(Polinom,operator_Calculate_can_calculate_value_of_polynomial_at_point_4)
+{
+	Polinom p;
+	string s="-100y3+x2z1";
+	p.OfString(s);
+	
+	EXPECT_EQ(p.Calculate(5,-1,2),150);
+}
+
+TEST(Polinom,operator_Calculate_can_calculate_value_of_polynomial_at_point_5)
+{
+	Polinom p;
+	string s="y3+x2z1-3y2";
+	p.OfString(s);
+	
+	EXPECT_EQ(p.Calculate(5,-1,2),46);
 }
